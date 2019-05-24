@@ -206,6 +206,7 @@ int conta_peca(char c){
 
 void movimento (char c){
 	int p, f;
+  char t;
 
   switch ( c ){
     case 'B':
@@ -225,7 +226,7 @@ void movimento (char c){
           scanf("%d", &ci);
         }
         ci -= 1;
-        if(m[li][ci] == 'B'){
+        if(m[li][ci] == 'B' && m[li+1][ci-1] == 'V' || m[li][ci] == 'B' && m[li+1][ci+1] == 'V' || m[li][ci] == 'B' && m[li+1][ci+1] == 'P' && m[li + 2][ci + 2] == 'V' || m[li][ci] == 'B' && m[li+1][ci-1] == 'P' && m[li + 2][ci - 2] == 'V'){
 
           system("clear");
           exibir_tabuleiro();
@@ -234,31 +235,86 @@ void movimento (char c){
 
           do{
 
-            printf("Digite a linha para onde deseja mover a peca: ");
-            scanf("%d", &lf);
-		lf -= 1;
+            do{
               
-            system("clear");
-            exibir_tabuleiro();
+              printf("Digite a linha para onde deseja mover a peca: ");
+              scanf("%d", &lf);
 
-            printf("Digite a coluna para onde deseja mover a peca: ");
-            scanf("%d", &cf);
+              if (lf < 1 || lf > 8)
+              {
+                system("clear");
+                exibir_tabuleiro();
+                printf("Linha invalida, por favor, insira uma linha valida!\n");
+              }
+
+            }while(lf < 1 || lf > 8);
+            lf -= 1;
+            do{
+
+              printf("Digite a coluna para onde deseja mover a peca: ");
+              scanf("%d", &cf);
+
+              if (cf < 1 || cf > 8)
+              {
+                system("clear");
+                exibir_tabuleiro();
+                printf("Coluna invalida, por favor, insira uma coluna valida!\n");
+              }
+
+            }while(cf < 1 || cf > 8);
             cf -= 1;
             
-            if(cf == ci + 1 && ci != 7 || cf == ci - 1 && ci != 0)
+            if(cf == ci + 1 && ci < 7 && lf == li +1 && li < 7 || cf == ci - 1 && ci > 0 && lf == li +1 && li < 7){
               if(m[lf][cf] == 'V'){
                 m[li][ci] = 'V';
-                m[lf][cf] = 'B';
+                if (lf == 7)
+                {
+                  m[lf][cf] = 'T';
+                }else{
+                  m[lf][cf] = 'B';
+                } 
                 f = 1;
+              }else{
+                system("clear");
+                exibir_tabuleiro();
+
+                printf("Posicao invalida, por favor, insira novamente os valores!\n");
               }
-            else{
+            }else if(cf == ci + 2 && ci <= 6 && lf == li + 2 && li < 7 || cf == ci - 2 && ci <= 6 && lf == li + 2 && li < 7){
+              if(m[lf][cf] == 'V' && m[li + 1][ci - 1] == 'P'){
+                m[li + 1][ci - 1] = 'V';
+                m[li][ci] = 'V';
+                if (lf == 7)
+                {
+                  m[lf][cf] = 'T';
+                }else{
+                  m[lf][cf] = 'B';
+                }
+                f = 1;
+              }else if (m[lf][cf] == 'V' && m[li + 1][ci + 1] == 'P'){
+                m[li + 1][ci + 1] = 'V';
+                m[li][ci] = 'V';
+                if (lf == 7)
+                {
+                  m[lf][cf] = 'T';
+                }else{
+                  m[lf][cf] = 'B';
+                }
+                f = 1;
+              }else{
+                system("clear");
+                exibir_tabuleiro();
+
+                printf("Não é possivel capturar essa peça.\n");
+              }
+            }else{
               
               system("clear");
               exibir_tabuleiro();
 
               printf("Posicao invalida, por favor, insira novamente os valores!\n");
             }
-            
+
           }while(f == 0);
           
           p = 1;
@@ -292,38 +348,89 @@ void movimento (char c){
           scanf("%d", &ci);
         }
         ci -= 1;
-        if(m[li][ci] == 'P'){
+        if(m[li][ci] == 'P' && m[li-1][ci-1] == 'V' || m[li][ci] == 'P' && m[li-1][ci+1] == 'V' || m[li][ci] == 'P' && m[li-1][ci+1] == 'B' && m[li - 2][ci + 2] == 'V' || m[li][ci] == 'P' && m[li-1][ci-1] == 'B' && m[li - 2][ci - 2] == 'V'){
+
+          system("clear");
+          exibir_tabuleiro();
+
+          printf("Posicao selecionada com sucesso!\n");
+
           do{
-            if(m[li][ci] == 'T'){
-              system("clear");
-              exibir_tabuleiro();
-              printf("Posicao selecionada com sucesso!\nDigite a linha para onde deseja mover a peca: ");
-              scanf("%d", &lf);
-            }else{
-              system("clear");
-              exibir_tabuleiro();
-              printf("Posicao selecionada com sucesso!\n");
-              lf = li - 1;
-            }
+
+            do{
               
-            printf("Digite a coluna para onde deseja mover a peca: ");
-            scanf("%d", &cf);
+              printf("Digite a linha para onde deseja mover a peca: ");
+              scanf("%d", &lf);
+
+              if (lf < 1 || lf > 8)
+              {
+                system("clear");
+                exibir_tabuleiro();
+                printf("Linha invalida, por favor, insira uma linha valida!\n");
+              }
+
+            }while(lf < 1 || lf > 8);
+            lf -= 1;
+            do{
+
+              printf("Digite a coluna para onde deseja mover a peca: ");
+              scanf("%d", &cf);
+
+              if (cf < 1 || cf > 8)
+              {
+                system("clear");
+                exibir_tabuleiro();
+                printf("Coluna invalida, por favor, insira uma coluna valida!\n");
+              }
+
+            }while(cf < 1 || cf > 8);
             cf -= 1;
             
-            if(cf == ci + 1 && ci != 7 || cf == ci - 1 && ci != 0)
+            if(cf == ci + 1 && ci < 7 && lf == li - 1 && li < 7 || cf == ci - 1 && ci > 0 && lf == li - 1 && li < 7){
               if(m[lf][cf] == 'V'){
                 m[li][ci] = 'V';
                 m[lf][cf] = 'P';
                 f = 1;
+              }else{
+                system("clear");
+                exibir_tabuleiro();
+
+                printf("Posicao invalida, por favor, insira novamente os valores!\n");
               }
-            
+            }else if(cf == ci + 2 && ci <= 6 && lf == li - 2 && li < 7 || cf == ci - 2 && ci <= 6 && lf == li - 2 && li < 7){
+              if(m[lf][cf] == 'V' && m[li - 1][ci - 1] == 'B'){
+                m[li - 1][ci - 1] = 'V';
+                m[li][ci] = 'V';
+                m[lf][cf] = 'P';
+                f = 1;
+              }else if (m[lf][cf] == 'V' && m[li - 1][ci + 1] == 'B'){
+                m[li - 1][ci + 1] = 'V';
+                m[li][ci] = 'V';
+                m[lf][cf] = 'P';
+                f = 1;
+              }else{
+                system("clear");
+                exibir_tabuleiro();
+
+                printf("Não é possivel capturar essa peça.\n");
+              }
+            }else{
+              
+              system("clear");
+              exibir_tabuleiro();
+
+              printf("Posicao invalida, por favor, insira novamente os valores!\n");
+            }
+
           }while(f == 0);
           
           p = 1;
         } else{
+
           system("clear");
           exibir_tabuleiro();
-          printf("Posicao invalida, por favor insira novamente linha e coluna de uma posicao valida!\n");
+
+          printf("Posicao invalida, por favor insira novamente os valores!!\n");
           p = 0;
         }
       }while(p == 0);
